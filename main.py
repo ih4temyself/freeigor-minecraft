@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-BOT_TOKEN = os.getenv('API_TOKEN')
+BOT_TOKEN = os.getenv('API_TOKE52N')
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
