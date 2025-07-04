@@ -40,24 +40,36 @@ import telebot
 from dotenv import load_dotenv
 import os
 from telebot import types
+from json_managment import UserManager
 
 load_dotenv()
 BOT_TOKEN = os.getenv('API_TOKEN')
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# Store the last message ID for deletion
+user_manager = UserManager()
 last_message_id = {}
 
-# START
+
 @bot.message_handler(commands=['start'])
 def send_help(message):
+    user_id = message.from_user.id
+    username = message.from_user.username or message.from_user.first_name or "unknown"    
+    user_manager.check_and_add_user(user_id, username)
+
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("weather", callback_data='option_weather'))
     markup.add(types.InlineKeyboardButton("time", callback_data='option_time'))
     msg = bot.send_message(message.chat.id, "Выберите команду:", reply_markup=markup)
     last_message_id[message.chat.id] = msg.message_id
 
+@bot.message_handler(commands=['admin'])
+def admin_panel(message):
+    print(user_manager.is_admin(message.from_user.id))
+    if user_manager.is_admin(message.from_user.id):
+        print(f"admin {message.from_user.id } napisav v bota")
+    else: 
+        print(f"NE admin {message.from_user.id } napisav v bota")
 # Handle callback queries
 @bot.callback_query_handler(func=lambda call: True)
 def callback_handler(call):

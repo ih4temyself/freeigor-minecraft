@@ -1,0 +1,14 @@
+{
+  "5955315444": {
+    "name": "hlpjhjj",
+    "admin": false,
+    "balance": 0,
+    "usages_per_hour": 30
+  },
+  "975835596": {
+    "name": "babamd",
+    "admin": true,
+    "balance": 0,
+    "usages_per_hour": 30
+  }
+}
