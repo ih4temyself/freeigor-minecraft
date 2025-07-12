@@ -12,7 +12,7 @@ RCON_PASS = os.getenv("RCON_PASSWORD")
 RCON_HOST = "127.0.0.1"
 RCON_PORT = 25575
 
-bot = telebot.TeleBot(BOT_TOKEN)
+bot = telebot.TeleBot(BOT_TOKEN, threaded=False)
 user_manager = UserManager()
 
 last_message_id: dict[int, int] = {}
