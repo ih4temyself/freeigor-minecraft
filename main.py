@@ -1,10 +1,8 @@
 import os
-
 import telebot
 from dotenv import load_dotenv
 from mcrcon import MCRcon
 from telebot import types
-
 from json_managment import UserManager
 
 load_dotenv()
@@ -19,14 +17,12 @@ user_manager = UserManager()
 
 last_message_id: dict[int, int] = {}
 
-
 def mc_command(cmd: str) -> str:
     try:
         with MCRcon(RCON_HOST, RCON_PASS, port=RCON_PORT) as mcr:
             return mcr.command(cmd)
     except Exception as e:
         return f"❌ RCON error: {e}"
-
 
 COMMANDS: dict[str, str] = {
     "weather_clear": "weather clear",
@@ -35,7 +31,6 @@ COMMANDS: dict[str, str] = {
     "time_set_day": "time set day",
     "time_set_night": "time set night",
 }
-
 
 @bot.message_handler(commands=["start"])
 def cmd_start(message: telebot.types.Message):
@@ -50,14 +45,12 @@ def cmd_start(message: telebot.types.Message):
     msg = bot.send_message(message.chat.id, "Выберите команду:", reply_markup=kb)
     last_message_id[message.chat.id] = msg.message_id
 
-
 @bot.message_handler(commands=["admin"])
 def cmd_admin(message: telebot.types.Message):
     if user_manager.is_admin(message.from_user.id):
         print(f"admin {message.from_user.id} написал в бота")
     else:
         print(f"НЕ admin {message.from_user.id} написал в бота")
-
 
 @bot.callback_query_handler(func=lambda call: True)
 def cb_router(call: telebot.types.CallbackQuery):
@@ -82,15 +75,21 @@ def cb_router(call: telebot.types.CallbackQuery):
         )
 
     elif data in COMMANDS:
-        bot.delete_message(chat_id, last_message_id.get(chat_id, call.message.id))
+        # Проверяем лимит команд
+        can_use, limit_message = user_manager.check_usage_limit(call.from_user.id)
+        if not can_use:
+            bot.delete_message(chat_id, last_message_id.get(chat_id, call.message.id))
+            bot.answer_callback_query(call.id, text=limit_message)
+            bot.send_message(chat_id, limit_message)
+            return
 
+        bot.delete_message(chat_id, last_message_id.get(chat_id, call.message.id))
         bot.answer_callback_query(call.id, text="⏱ doing…")
         reply = mc_command(COMMANDS[data])
-        bot.send_message(chat_id, reply or "ready!")
+        bot.send_message(chat_id, f"{reply or 'ready!'}\n{limit_message}")
 
     else:
         bot.answer_callback_query(call.id, text="Unknown option 🤔")
-
 
 def _swap_keyboard(chat_id: int, prompt: str, rows: list[tuple[str, str]]):
     bot.delete_message(chat_id, last_message_id.get(chat_id))
@@ -99,7 +98,6 @@ def _swap_keyboard(chat_id: int, prompt: str, rows: list[tuple[str, str]]):
         kb.add(types.InlineKeyboardButton(text, callback_data=cb))
     msg = bot.send_message(chat_id, prompt, reply_markup=kb)
     last_message_id[chat_id] = msg.message_id
-
 
 if __name__ == "__main__":
     print("Bot is running…")
