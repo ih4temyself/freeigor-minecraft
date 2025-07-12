@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <title>ExampleMC • Join us</title>
+
+  <style>
+    .glass {
+      background: rgba(0, 0, 0, 0.30);
+      backdrop-filter: blur(6px);
+    }
+
+    @keyframes bleed {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .bleeding-text {
+      background-image: linear-gradient(270deg, #8b0000, #e11d48, #8b0000);
+      background-size: 400% 400%;
+      animation: bleed 8s ease-in-out infinite;
+      -webkit-background-clip: text;
+              background-clip: text;
+      color: transparent;
+    }
+  </style>
+</head>
+
+<body class="h-full text-gray-200 selection:bg-red-700 selection:text-white">
+
+  <video autoplay muted loop playsinline
+         class="fixed inset-0 w-full h-full object-cover">
+    <source src="steam_profile.webm" type="video/webm">
+  </video>
+
+  <main class="relative z-10 flex items-center justify-center min-h-full p-6">
+    <div class="glass max-w-md w-full rounded-2xl p-8 shadow-lg ring-1 ring-red-800/40">
+
+      <h1 class="bleeding-text text-5xl font-extrabold mb-4 drop-shadow text-center">
+        #FREEIGOR
+      </h1>
+
+      <p class="mb-8 text-gray-400 text-center">survive • 1.21.5 • conquer</p>
+
+      <div class="flex gap-2 items-center justify-center mb-6">
+        <code id="ip"
+              class="px-10 py-2 font-mono text-sm rounded bg-gray-800/50 select-all">
+            176.37.189.251:7777
+        </code>
+
+        <button id="copyBtn"
+                class="flex items-center gap-1 px-4 py-2 rounded bg-red-800 hover:bg-red-700 active:bg-red-900 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+               class="h-5 w-5" fill="none" stroke="currentColor"
+               stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 2.75a2.25 2.25 0 1 1-4.5 0M12 4v0m-4.5 0H6A2.25 2.25 0 0 0 3.75 6.25v13.5A2.25 2.25 0 0 0 6 22h12a2.25 2.25 0 0 0 2.25-2.25V6.25A2.25 2.25 0 0 0 18 4h-1.5" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-3">
+        <a href="https://t.me/your_bot"
+           class="block w-full text-center px-6 py-3 rounded bg-red-800 hover:bg-red-700 active:bg-red-900 transition">
+          tgbot
+        </a>
+
+        <a href="http://localhost/map/"
+           class="block w-full text-center px-6 py-3 rounded bg-red-800 hover:bg-red-700 active:bg-red-900 transition">
+          map
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <script>
+    copyBtn.addEventListener('click', () =>
+      navigator.clipboard.writeText(ip.textContent.trim())
+        .then(() => { copyBtn.textContent = 'copied!'; })
+        .catch(() => alert('error 😢')));
+  </script>
+</body>
+</html>
