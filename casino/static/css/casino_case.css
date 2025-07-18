@@ -1,0 +1,48 @@
+.case-viewport-lg {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    height: 128px;
+    border: 1px solid rgba(255,255,255,.15);
+    background: rgba(0,0,0,.4);
+    border-radius: .75rem;
+  }
+  .case-strip-lg {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    will-change: transform;
+    transform: translateX(0);
+    transition: transform 8s cubic-bezier(.08,.72,.17,1);
+    padding: 16px;
+  }
+  .case-item-lg {
+    width: 96px;
+    min-width: 96px;
+    height: 96px;
+    border-radius: .5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    text-align: center;
+    padding: 4px;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0,0,0,.8);
+  }
+  .case-marker-lg {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #e11d48;
+    box-shadow: 0 0 6px rgba(0,0,0,.9), 0 0 8px #e11d48;
+    pointer-events: none;
+    z-index: 2;
+  }

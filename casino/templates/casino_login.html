@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>FREEIGOR • Login</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body class="h-full text-gray-200 selection:bg-red-700 selection:text-white">
+
+  <video autoplay muted loop playsinline preload="auto"
+         class="fixed inset-0 w-full h-full object-cover object-center opacity-100">
+    <source src="{{ url_for('static', filename='media/steam_profile.webm') }}" type="video/webm">
+  </video>
+
+  <main class="relative z-10 flex items-center justify-center min-h-full p-6">
+    <div class="glass max-w-sm w-full rounded-2xl p-8 shadow-lg ring-1 ring-red-800/40 space-y-6">
+
+      <h1 class="bleeding-text text-4xl font-extrabold drop-shadow text-center">
+        #FREEIGOR
+      </h1>
+
+      <div class="space-y-3">
+        <label for="loginCodeInput" class="block text-sm text-gray-300 text-center">
+          Paste login code from Telegram bot
+        </label>
+        <input id="loginCodeInput" type="text" inputmode="text" autocomplete="off" spellcheck="false" maxlength="36"
+               placeholder="xxxx-xxxx-xxxx"
+               class="w-full px-4 py-2 rounded bg-gray-900/70 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-700" />
+        <button id="loginBtn"
+                class="w-full px-6 py-3 rounded bg-red-800 hover:bg-red-700 active:bg-red-900 transition font-semibold">
+          Login
+        </button>
+        <p id="loginError" class="hidden text-sm text-red-400 text-center"></p>
+      </div>
+
+      <p class="text-center text-xs text-gray-500">
+        Need a code? DM our Telegram bot:
+        <a class="underline hover:text-red-400"
+           href="https://t.me/FreeIgorMinecraft_bot" target="_blank" rel="noopener">@FreeIgorMinecraft_bot</a>
+      </p>
+
+    </div>
+  </main>
+
+  <script type="module" src="{{ url_for('static', filename='js/casino_login.js') }}"></script>
+</body>
+</html>
